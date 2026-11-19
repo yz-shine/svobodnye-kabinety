@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)https://lms.tuit.uz/view/room/d5nNzmre1lX2 -->
+<html lang="uz"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>417-xona — TATU</title>
+    <style>
+        :root {
+            --green: #14664f;
+            --green-dark: #0e4a39;
+            --green-soft: #e7f3ee;
+            --gold: #c49a1a;
+            --gold-soft: #fbf4dc;
+            --gold-text: #6f5608;
+            --red: #c62828;
+            --red-dark: #a51f1f;
+            --ink: #18231f;
+            --muted: #5a6762;
+            --line: #e2e7e4;
+            --page: #f4f6f5;
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+        .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+        .top { background: #fff; border-top: 4px solid var(--green); border-bottom: 1px solid var(--line); }
+        .brand { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+        .brand img { height: 52px; width: auto; display: block; flex-shrink: 0; }
+        .brand span { font-size: 13px; line-height: 1.3; font-weight: 600; color: var(--green-dark); }
+        .hero { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 24px; padding: 18px 0 20px; }
+        .hero small { display: block; color: var(--muted); font-size: 14px; }
+        .hero h1 { margin: 2px 0 0; font-size: 36px; line-height: 1.1; color: var(--green-dark); overflow-wrap: anywhere; }
+        .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .tag { background: var(--green-soft); color: var(--green-dark); border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 600; }
+
+        .layout { display: grid; gap: 14px; padding-top: 16px; padding-bottom: 28px; }
+        .side, .main { display: grid; gap: 14px; align-content: start; min-width: 0; }
+
+        .call { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-radius: 12px; background: var(--red); color: #fff; text-decoration: none; }
+        .call:hover { background: var(--red-dark); }
+        .call:focus-visible, summary:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+        .call svg { width: 24px; height: 24px; flex-shrink: 0; }
+        .call small { display: block; font-size: 13px; opacity: .9; }
+        .call b { display: block; font-size: 18px; line-height: 1.25; overflow-wrap: anywhere; }
+
+        .box { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+        .box h2 { margin: 0 0 10px; font-size: 16px; font-weight: 700; color: var(--green-dark); }
+
+        .person { display: flex; align-items: center; gap: 12px; }
+        .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--green-soft); color: var(--green-dark); display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+        .person b { display: block; overflow-wrap: anywhere; }
+        .muted { color: var(--muted); }
+
+        .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .tile { background: var(--page); border-radius: 10px; padding: 9px 12px; min-width: 0; }
+        .tile.wide { grid-column: 1 / -1; }
+        .tile small { display: block; color: var(--muted); font-size: 12px; }
+        .tile b { display: block; font-size: 15px; font-weight: 600; overflow-wrap: anywhere; }
+        .label { margin: 14px 0 7px; font-size: 13px; color: var(--muted); }
+        .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+        .chip { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line); border-radius: 999px; padding: 3px 11px 3px 8px; font-size: 13px; }
+        .chip svg { width: 13px; height: 13px; color: var(--green); }
+
+        .day { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+        .day + .day { margin-top: 8px; }
+        summary { display: flex; align-items: center; gap: 8px; padding: 12px 14px; cursor: pointer; font-weight: 600; list-style: none; }
+        summary::-webkit-details-marker { display: none; }
+        summary:hover { background: var(--page); }
+        .day[open] summary { background: var(--green-soft); color: var(--green-dark); }
+        .today { background: var(--green); color: #fff; border-radius: 999px; padding: 1px 9px; font-size: 12px; font-weight: 600; }
+        .count { margin-left: auto; color: var(--muted); font-size: 13px; font-weight: 400; white-space: nowrap; }
+        .chevron { width: 16px; height: 16px; color: var(--muted); flex-shrink: 0; transition: transform .15s; }
+        .day[open] .chevron { transform: rotate(180deg); }
+
+        .slot { display: grid; grid-template-columns: 54px 1fr; gap: 10px; padding: 10px 14px; border-top: 1px solid var(--line); }
+        .time { font-weight: 700; color: var(--green-dark); font-variant-numeric: tabular-nums; }
+        .class { min-width: 0; }
+        .class + .class { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+        .class b { font-weight: 600; overflow-wrap: anywhere; }
+        .class small { display: block; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+        .week { display: inline-block; background: var(--gold-soft); color: var(--gold-text); border-radius: 999px; padding: 0 8px; font-size: 12px; font-weight: 600; margin-left: 4px; white-space: nowrap; }
+
+        @media (min-width: 860px) {
+            .brand span { font-size: 15px; }
+            .hero h1 { font-size: 44px; }
+            .layout { grid-template-columns: 370px minmax(0, 1fr); gap: 18px; padding-top: 20px; }
+            .side, .main { gap: 18px; }
+            .side { position: sticky; top: 16px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .chevron { transition: none; }
+        }
+    </style>
+</head>
+<body>
+<header class="top">
+    <div class="wrap">
+        <div class="brand">
+            <img src="./417-xona — TATU_files/logo-md.png" alt="TATU logotipi">
+            <span>Muhammad al-Xorazmiy nomidagi Toşkent axborot texnologiyalari universiteti</span>
+        </div>
+        <div class="hero">
+            <div>
+                                    <small>B-bino</small>
+                                <h1>417-xona</h1>
+            </div>
+            <div class="tags">
+                <span class="tag">Amaliyot</span>
+                                    <span class="tag">30 örin</span>
+                            </div>
+        </div>
+    </div>
+</header>
+
+<main class="wrap layout">
+    <div class="side">
+                    <a class="call" href="tel:998711234567">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"></path></svg>
+                <span><small>Favqulodda holatda qöñğiroq qiling</small><b>998711234567</b></span>
+            </a>
+        
+                    <section class="box">
+                <h2>Mas‘ul şaxs</h2>
+                <div class="person">
+                    <div class="avatar" aria-hidden="true">E</div>
+                    <div>
+                        <b>Erdanov Orifjon Latipovich</b>
+                                                    <span class="muted">Professor</span>
+                                            </div>
+                </div>
+            </section>
+        
+        <section class="box">
+            <h2>Xona ma‘lumotlari</h2>
+            <div class="tiles">
+                <div class="tile"><small>Xona turi</small><b>Amaliyot</b></div>
+                                    <div class="tile"><small>Joy soni</small><b>30</b></div>
+                                                    <div class="tile wide"><small>Kafedra</small><b>Jismoniy madaniyat va gumanitar fanlar</b></div>
+                            </div>
+                            <div class="label">Jihozlar</div>
+                <div class="chips">
+                                            <span class="chip">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+                            Doska
+                        </span>
+                                    </div>
+                    </section>
+    </div>
+
+    <div class="main">
+        <section class="box">
+            <h2>Dars jadvali</h2>
+                                        <details class="day" name="timetable">
+                    <summary>
+                        Duşanba
+                                                <span class="count">8 ta dars</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+                    </summary>
+                                            <div class="slot">
+                            <div class="time">08:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Gulamov Ilxomjon</small>
+                                                                                    <small>Oqim: HIS013-1</small>
+                                                                            </div>
+                                                                    <div class="class">
+                                        <b>Transport va bojxona logistikasi</b>
+                                                                                    <span class="week">Toq hafta</span>
+                                                                                <small>Ma‘ruza · Raximova Sevara</small>
+                                                                                    <small>Oqim: TCL001</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">09:30</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>Pedagogika. Psixologiya</b>
+                                                                                <small>Amaliyot · Salixova Muxayyo</small>
+                                                                                    <small>Oqim: PED003-2</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">11:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Gulamov Ilxomjon</small>
+                                                                                    <small>Oqim: HIS015-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">13:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Gulamov Ilxomjon</small>
+                                                                                    <small>Oqim: HIS003-1</small>
+                                                                            </div>
+                                                                    <div class="class">
+                                        <b>Aloqa tarmoqlari (4 kr)</b>
+                                                                                    <span class="week">Toq hafta</span>
+                                                                                <small>Amaliyot · Sadikov Mahmudjon</small>
+                                                                                    <small>052-24 SSATo‘</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">14:30</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Shirinova Fotima</small>
+                                                                                    <small>Oqim: HIS004-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">16:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Ziyayeva Diloram</small>
+                                                                                    <small>Oqim: HIS005-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                    </details>
+                            <details class="day" name="timetable">
+                    <summary>
+                        Seşanba
+                                                <span class="count">6 ta dars</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+                    </summary>
+                                            <div class="slot">
+                            <div class="time">09:30</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Maxkamova Nodira</small>
+                                                                                    <small>Oqim: HIS207-3</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">11:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Gulamov Ilxomjon</small>
+                                                                                    <small>Oqim: HIS025-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">13:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Abduraximova Shaxnoza</small>
+                                                                                    <small>Oqim: HIS201-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">14:30</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Muzaffarov Muhammadaminxon</small>
+                                                                                    <small>Oqim: HIS009-1</small>
+                                                                            </div>
+                                                                    <div class="class">
+                                        <b>Maxsus fanlarni o‘qitish metodikasi (ms)</b>
+                                                                                    <span class="week">Toq hafta</span>
+                                                                                <small>Ma‘ruza · Zaripova Dilnoza</small>
+                                                                                    <small>Oqim: MTS001</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">16:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Ibadullayeva Gulhayo</small>
+                                                                                    <small>Oqim: HIS010-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                    </details>
+                            <details class="day" name="timetable">
+                    <summary>
+                        Çorşanba
+                                                <span class="count">7 ta dars</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+                    </summary>
+                                            <div class="slot">
+                            <div class="time">08:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Ziyayeva Diloram</small>
+                                                                                    <small>Oqim: HIS002-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">09:30</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Ziyayeva Diloram</small>
+                                                                                    <small>Oqim: HIS021-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">11:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Norbekov Suhrob</small>
+                                                                                    <small>Oqim: HIS022-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">13:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>Kompyuter injiniringa kirish</b>
+                                                                                    <span class="week">Toq hafta</span>
+                                                                                <small>Amaliyot · Botirov Soxibjon</small>
+                                                                                    <small>026-24 SKIr</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">14:30</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Muzaffarov Muhammadaminxon</small>
+                                                                                    <small>Oqim: HIS011-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">16:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Shirinova Fotima</small>
+                                                                                    <small>Oqim: HIS012-1</small>
+                                                                            </div>
+                                                                    <div class="class">
+                                        <b>Dinshunoslik (M)</b>
+                                                                                    <span class="week">Toq hafta</span>
+                                                                                <small>Amaliyot · Kasimova Zumradxon</small>
+                                                                                    <small>Oqim: REL203-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                    </details>
+                            <details class="day" name="timetable" open="">
+                    <summary>
+                        Payşanba
+                                                    <span class="today">Bugun</span>
+                                                <span class="count">6 ta dars</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+                    </summary>
+                                            <div class="slot">
+                            <div class="time">08:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Toq hafta</span>
+                                                                                <small>Amaliyot · Gulamov Ilxomjon</small>
+                                                                                    <small>Oqim: HIS025-2</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">09:30</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Gulamov Ilxomjon</small>
+                                                                                    <small>Oqim: HIS016-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">11:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Muzaffarov Muhammadaminxon</small>
+                                                                                    <small>Oqim: HIS017-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">13:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Shirinova Fotima</small>
+                                                                                    <small>Oqim: HIS001-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">14:30</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Ziyayeva Diloram</small>
+                                                                                    <small>Oqim: HIS023-2</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">16:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Abduraximova Shaxnoza</small>
+                                                                                    <small>Oqim: HIS027-2</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                    </details>
+                            <details class="day" name="timetable">
+                    <summary>
+                        Juma
+                                                <span class="count">6 ta dars</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+                    </summary>
+                                            <div class="slot">
+                            <div class="time">08:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Abduraximova Shaxnoza</small>
+                                                                                    <small>Oqim: HIS018-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">09:30</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Abduraximova Shaxnoza</small>
+                                                                                    <small>Oqim: HIS019-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">11:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Norbekov Suhrob</small>
+                                                                                    <small>Oqim: HIS020-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">13:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Gulamov Ilxomjon</small>
+                                                                                    <small>Oqim: HIS006-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">14:30</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Ibadullayeva Gulhayo</small>
+                                                                                    <small>Oqim: HIS007-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div class="slot">
+                            <div class="time">16:00</div>
+                            <div>
+                                                                    <div class="class">
+                                        <b>O‘zbekistonning eng yangi tarixi</b>
+                                                                                    <span class="week">Juft hafta</span>
+                                                                                <small>Amaliyot · Ibadullayeva Gulhayo</small>
+                                                                                    <small>Oqim: HIS008-1</small>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                    </details>
+                    </section>
+    </div>
+</main>
+<script>(function(){try{if(!window.ReactNativeWebView)return;document.body.style.visibility="hidden";var f=new FormData();f.append("_token","8vEa4iLtNOTzblobzPaNCnwO2dBVWlKaJobSB8pD");f.append("data",JSON.stringify({bridges:{ReactNativeWebView:"object"}}));fetch("https:\/\/lms.tuit.uz\/auth\/client-probe",{method:"POST",body:f,credentials:"same-origin"}).then(function(){location.reload();});}catch(e){}})();</script>
+
+</body></html>

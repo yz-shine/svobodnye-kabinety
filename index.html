@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Свободные кабинеты</title>
+<style>
+:root{--green:#14664f;--green-dark:#0e4a39;--green-soft:#e7f3ee;--gold:#c49a1a;--gold-soft:#fbf4dc;--gold-text:#6f5608;--ink:#18231f;--muted:#5a6762;--line:#e2e7e4;--page:#f4f6f5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:0 16px}
+.top{background:#fff;border-top:4px solid var(--green);border-bottom:1px solid var(--line)}
+.brand{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.brand span{font-size:13px;line-height:1.3;font-weight:600;color:var(--green-dark);max-width:560px}
+.hero{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 24px;padding:18px 0 20px}
+.hero small{display:block;color:var(--muted);font-size:14px}
+.hero h1{margin:2px 0 0;font-size:36px;line-height:1.1;color:var(--green-dark);overflow-wrap:anywhere}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{background:var(--green-soft);color:var(--green-dark);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:600}
+.tag.odd{background:var(--gold-soft);color:var(--gold-text)}
+main{display:grid;gap:14px;padding-top:16px;padding-bottom:28px}
+.box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0}
+.ctrl{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px}
+.weeknav{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.weeknav b{min-width:150px;text-align:center;font-size:16px;color:var(--green-dark)}
+.btn,.seg button{font:inherit;font-size:14px;font-weight:600;color:var(--green-dark);background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+.btn:hover,.seg button:hover{background:var(--green-soft)}
+.btn[aria-pressed=true],.seg button[aria-pressed=true]{background:var(--green);border-color:var(--green);color:#fff}
+.btn:focus-visible,.seg button:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.seg{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:0;border-radius:0;color:var(--muted)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:12px 0 2px}
+.tabs .btn{white-space:nowrap}
+.tabs .btn.today{border-color:var(--gold);box-shadow:inset 0 -3px 0 var(--gold)}
+.scroll{overflow-x:auto}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:14px}
+.tbl th,.tbl td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.tbl thead th{background:var(--green-soft);color:var(--green-dark);font-weight:700;white-space:nowrap}
+.tbl thead th small{display:block;font-weight:400;color:var(--muted)}
+.tbl thead th.today{background:var(--gold-soft);color:var(--gold-text)}
+.tbl td.today{background:#fffbee}
+.tbl tbody th{background:#fff;font-weight:400;white-space:nowrap}
+.tbl tbody th b{display:block;font-size:17px;color:var(--green-dark)}
+.tbl tbody th small{color:var(--muted)}
+.tbl th:first-child{position:sticky;left:0;z-index:1;box-shadow:1px 0 0 var(--line)}
+.chip{display:inline-block;margin:2px 4px 2px 0;padding:3px 10px;border-radius:999px;background:var(--green-soft);color:var(--green-dark);font-weight:600;font-size:13px;white-space:nowrap}
+.chip.all{background:var(--green);color:#fff}
+.muted{color:var(--muted)}
+td.ok{background:var(--green-soft);color:var(--green-dark);font-weight:600}
+td.busy{background:var(--gold-soft);color:var(--gold-text)}
+td.busy small{display:block;opacity:.85}
+.subj{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-width:105px;max-width:135px;font-size:13px;line-height:1.3}
+.note{margin:0;color:var(--muted);font-size:13px}
+@media(max-width:560px){.hero h1{font-size:28px}.weeknav b{min-width:0;flex:1}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="data.js"></script>
+<script>
+// Начало чётной недели (понедельник). От неё считаются чётные и нечётные недели.
+const EVEN_MONDAY = Date.UTC(2026, 10, 16);
+const DAY = 864e5;
+const PS = ['08:00', '09:30', '11:00', '13:00', '14:30', '16:00'];
+const PE = ['09:20', '10:50', '12:20', '14:20', '15:50', '17:20'];
+
+const T = {
+  'ru': {
+    code: 'ru', btn: 'Русский', title: 'Свободные кабинеты',
+    univ: 'Ташкентский университет информационных технологий имени Мухаммада аль-Хорезми',
+    bld: x => 'Корпус ' + x, count: n => n + ' кабинетов', room: 'Кабинет',
+    even: 'Чётная неделя', odd: 'Нечётная неделя', week: 'Неделя', day: 'День',
+    thisWeek: 'Эта неделя', prev: 'Предыдущая неделя', next: 'Следующая неделя',
+    free: 'Свободно', allDay: 'Весь день', full: 'Занят весь день', pair: 'пара', today: 'сегодня',
+    seats: n => n + ' мест', practice: 'Практика', lecture: 'Лекция', computer: 'Компьютерный класс',
+    days: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'], short: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт'],
+    note: 'Расписание взято со страниц кабинетов в LMS и повторяется по чётным и нечётным неделям. Замены и праздничные дни здесь не учтены.'
+  },
+  'uz-cyrl': {
+    code: 'uz-Cyrl', btn: 'Ўзбекча', title: 'Бўш хоналар',
+    univ: 'Муҳаммад ал-Хоразмий номидаги Тошкент ахборот технологиялари университети',
+    bld: x => x + '-бино', count: n => n + ' та хона', room: 'Хона',
+    even: 'Жуфт ҳафта', odd: 'Тоқ ҳафта', week: 'Ҳафта', day: 'Кун',
+    thisWeek: 'Шу ҳафта', prev: 'Олдинги ҳафта', next: 'Кейинги ҳафта',
+    free: 'Бўш', allDay: 'Кун бўйи', full: 'Кун бўйи банд', pair: 'пара', today: 'бугун',
+    seats: n => n + ' ўрин', practice: 'Амалиёт', lecture: 'Маъруза', computer: 'Компьютер',
+    days: ['Душанба', 'Сешанба', 'Чоршанба', 'Пайшанба', 'Жума'], short: ['Ду', 'Се', 'Чо', 'Па', 'Жу'],
+    note: 'Жадвал LMS даги хоналар саҳифаларидан олинган ва жуфт ҳамда тоқ ҳафталар бўйича такрорланади. Алмаштиришлар ва байрам кунлари ҳисобга олинмаган.'
+  },
+  'uz-latn': {
+    code: 'uz-Latn', btn: 'O‘zbekcha', title: 'Bo‘sh xonalar',
+    univ: 'Muhammad al-Xorazmiy nomidagi Toshkent axborot texnologiyalari universiteti',
+    bld: x => x + '-bino', count: n => n + ' ta xona', room: 'Xona',
+    even: 'Juft hafta', odd: 'Toq hafta', week: 'Hafta', day: 'Kun',
+    thisWeek: 'Shu hafta', prev: 'Oldingi hafta', next: 'Keyingi hafta',
+    free: 'Bo‘sh', allDay: 'Kun bo‘yi', full: 'Kun bo‘yi band', pair: 'para', today: 'bugun',
+    seats: n => n + ' o‘rin', practice: 'Amaliyot', lecture: 'Ma‘ruza', computer: 'Kompyuter',
+    days: ['Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma'], short: ['Du', 'Se', 'Ch', 'Pa', 'Ju'],
+    note: 'Jadval LMS dagi xonalar sahifalaridan olingan va juft hamda toq haftalar bo‘yicha takrorlanadi. Almashtirishlar va bayram kunlari hisobga olinmagan.'
+  }
+};
+const LANGS = ['ru', 'uz-cyrl', 'uz-latn'];
+
+// Латиница в кириллицу (для названий предметов и фамилий)
+/*CYR*/
+const CM = {a:'а',b:'б',c:'ц',d:'д',e:'е',f:'ф',g:'г',h:'ҳ',i:'и',j:'ж',k:'к',l:'л',m:'м',n:'н',o:'о',p:'п',q:'қ',r:'р',s:'с',t:'т',u:'у',v:'в',w:'в',x:'х',y:'й',z:'з'};
+const OV = {Calculus: 'Калкулус', Philosophy: 'Философия', Kookmin: 'Кукмин', Kompyuter: 'Компьютер'};
+const AP = '‘’ʼ\'`';
+function cyr(s) {
+  s = s.replace(/Calculus|Philosophy|Kookmin|Kompyuter/g, m => OV[m]);
+  let out = '';
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i], lo = ch.toLowerCase(), nx = (s[i + 1] || '').toLowerCase(), pv = (s[i - 1] || '').toLowerCase();
+    if (AP.includes(ch)) { out += /[a-z]/.test(pv) ? 'ъ' : ch; continue; }
+    if (!/[a-z]/.test(lo)) { out += ch; continue; }
+    let r, skip = 0;
+    if ((lo === 'o' || lo === 'g') && nx && AP.includes(nx)) { r = lo === 'o' ? 'ў' : 'ғ'; skip = 1; }
+    else if (lo === 's' && nx === 'h') { r = 'ш'; skip = 1; }
+    else if (lo === 'c' && nx === 'h') { r = 'ч'; skip = 1; }
+    else if (lo === 't' && nx === 's') { r = 'ц'; skip = 1; }
+    else if (lo === 'y' && nx === 'o' && !AP.includes(s[i + 2] || ' ')) { r = 'ё'; skip = 1; }
+    else if (lo === 'y' && nx === 'a') { r = 'я'; skip = 1; }
+    else if (lo === 'y' && nx === 'u') { r = 'ю'; skip = 1; }
+    else if (lo === 'y' && nx === 'e') { r = 'е'; skip = 1; }
+    else if (lo === 'e') r = (!/[a-z]/.test(pv) || 'aeiou'.includes(pv)) ? 'э' : 'е';
+    else r = CM[lo];
+    out += ch !== lo ? r.toUpperCase() : r;
+    i += skip;
+  }
+  return out;
+}
+/*CYR_END*/
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const pad = n => String(n).padStart(2, '0');
+const fmt = ms => { const d = new Date(ms); return pad(d.getUTCDate()) + '.' + pad(d.getUTCMonth() + 1); };
+const rooms = window.SCHEDULE.rooms;
+
+let st = { lang: 'ru', view: 'week', day: 0, mon: 0 };
+let todayMs = 0;
+try { const l = localStorage.getItem('lang'); if (T[l]) st.lang = l; } catch (e) {}
+
+function goToday() {
+  const n = new Date();
+  todayMs = Date.UTC(n.getFullYear(), n.getMonth(), n.getDate());
+  const dow = (n.getDay() + 6) % 7;
+  st.mon = todayMs - dow * DAY;
+  st.day = dow;
+  if (dow > 4) { st.mon += 7 * DAY; st.day = 0; }   // в субботу и воскресенье показываем следующую неделю
+}
+const isEven = mon => ((Math.round((mon - EVEN_MONDAY) / (7 * DAY)) % 2) + 2) % 2 === 0;
+const lessonAt = (r, d, p, par) => r.lessons.find(l => l.day === d && l.pair === p && (l.week === 'all' || l.week === par));
+
+function freeRuns(r, d, par) {
+  const out = []; let s = 0;
+  for (let p = 1; p <= 7; p++) {
+    if (p <= 6 && !lessonAt(r, d, p, par)) { if (!s) s = p; }
+    else if (s) { out.push([s, p - 1]); s = 0; }
+  }
+  return out;
+}
+
+function render() {
+  const t = T[st.lang], par = isEven(st.mon) ? 'even' : 'odd';
+  const tx = s => st.lang === 'uz-latn' ? s : cyr(s);
+  const typeName = x => /^Ma/i.test(x) ? t.lecture : /^Komp/i.test(x) ? t.computer : t.practice;
+  const dates = [0, 1, 2, 3, 4].map(i => st.mon + i * DAY);
+  const weekHere = dates.includes(todayMs);
+  const bld = (rooms[0].building.match(/^[A-Za-z]/) || [''])[0];
+  const roomCell = r => `<th scope="row"><b>${esc(r.room)}</b><small>${typeName(r.type)}, ${t.seats(r.seats)}</small></th>`;
+
+  const chips = (r, d) => {
+    const runs = freeRuns(r, d, par);
+    if (!runs.length) return `<span class="muted">${t.full}</span>`;
+    if (runs.length === 1 && runs[0][0] === 1 && runs[0][1] === 6) return `<span class="chip all" title="${PS[0]}-${PE[5]}">${t.allDay}</span>`;
+    return runs.map(([a, b]) => `<span class="chip" title="${a === b ? a : a + '-' + b} ${t.pair}">${PS[a - 1]}-${PE[b - 1]}</span>`).join('');
+  };
+
+  let table;
+  if (st.view === 'week') {
+    table = `<div class="scroll"><table class="tbl"><thead><tr><th scope="col">${t.room}</th>${dates.map((ms, i) =>
+      `<th scope="col" class="${ms === todayMs ? 'today' : ''}">${t.days[i]}<small>${fmt(ms)}${ms === todayMs ? ', ' + t.today : ''}</small></th>`).join('')}</tr></thead><tbody>${
+      rooms.map(r => `<tr>${roomCell(r)}${[0, 1, 2, 3, 4].map(d => `<td class="${dates[d] === todayMs ? 'today' : ''}">${chips(r, d)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  } else {
+    const d = st.day;
+    const head = PS.map((s, i) => `<th scope="col">${i + 1} ${t.pair}<small>${s}-${PE[i]}</small></th>`).join('');
+    const body = rooms.map(r => `<tr>${roomCell(r)}${[1, 2, 3, 4, 5, 6].map(p => {
+      const l = lessonAt(r, d, p, par);
+      if (!l) return `<td class="ok">${t.free}</td>`;
+      const tip = [tx(l.subject), l.kind + (l.teacher ? ', ' + tx(l.teacher) : ''), l.group].filter(Boolean).join('\n');
+      return `<td class="busy" title="${esc(tip)}"><div class="subj">${esc(tx(l.subject))}</div><small>${esc(l.group)}</small></td>`;
+    }).join('')}<td>${chips(r, d)}</td></tr>`).join('');
+    table = `<div class="tabs">${t.days.map((n, i) => `<button class="btn${dates[i] === todayMs ? ' today' : ''}" data-act="day" data-v="${i}" aria-pressed="${st.day === i}">${t.short[i]} ${fmt(dates[i])}</button>`).join('')}</div>
+      <div class="scroll" style="margin-top:10px"><table class="tbl"><thead><tr><th scope="col">${t.room}</th>${head}<th scope="col">${t.free}</th></tr></thead><tbody>${body}</tbody></table></div>`;
+  }
+
+  document.documentElement.lang = t.code;
+  document.title = t.title;
+  document.getElementById('app').innerHTML = `
+<header class="top"><div class="wrap">
+  <div class="brand"><span>${t.univ}</span>
+    <div class="seg" role="group">${LANGS.map(k => `<button data-act="lang" data-v="${k}" aria-pressed="${st.lang === k}">${T[k].btn}</button>`).join('')}</div></div>
+  <div class="hero"><div><small>${t.bld(bld)}</small><h1>${t.title}</h1></div>
+    <div class="tags"><span class="tag">${t.count(rooms.length)}</span><span class="tag${par === 'odd' ? ' odd' : ''}">${t[par]}</span></div></div>
+</div></header>
+<main class="wrap">
+  <section class="box"><div class="ctrl">
+    <div class="weeknav">
+      <button class="btn" data-act="prev" aria-label="${t.prev}">‹</button>
+      <b>${fmt(st.mon)}-${fmt(st.mon + 6 * DAY)}.${new Date(st.mon + 6 * DAY).getUTCFullYear()}</b>
+      <button class="btn" data-act="next" aria-label="${t.next}">›</button>
+      ${weekHere ? '' : `<button class="btn" data-act="today">${t.thisWeek}</button>`}
+    </div>
+    <div class="seg" role="group">${['week', 'day'].map(v => `<button data-act="view" data-v="${v}" aria-pressed="${st.view === v}">${t[v]}</button>`).join('')}</div>
+  </div></section>
+  <section class="box">${table}</section>
+  <p class="note">${t.note}</p>
+</main>`;
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if (!b) return;
+  const a = b.dataset.act, v = b.dataset.v;
+  if (a === 'lang') { st.lang = v; try { localStorage.setItem('lang', v); } catch (x) {} }
+  else if (a === 'prev') st.mon -= 7 * DAY;
+  else if (a === 'next') st.mon += 7 * DAY;
+  else if (a === 'today') goToday();
+  else if (a === 'view') st.view = v;
+  else if (a === 'day') st.day = +v;
+  render();
+  const again = document.querySelector('[data-act="' + a + '"]' + (v !== undefined ? '[data-v="' + v + '"]' : ''));
+  if (again) again.focus();
+});
+
+goToday();
+render();
+</script>
+</body>
+</html>
